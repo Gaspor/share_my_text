@@ -4,12 +4,26 @@ import { sendText } from "@/app/utils";
 
 export default function Home() {
   const [charCounter, setCharCounter] = useState(0);
+  const [id, setId] = useState("");
 
+  async function name(formData: FormData) {
+    const result = await sendText(formData);
+    if(result.status == 200) {
+      console.log("criado com sucesso!");
+      setId(result.id);
+      
+    } else {
+      console.log(result.message);
+      
+    }
+  }
+
+  
   const api = null;
   const charLimit = api || 1000;
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <form action={sendText}>
+      <form action={name}>
         <div>
           <div className="grid">
             <label htmlFor="my_text">Escreva seu texto: </label>
@@ -20,6 +34,11 @@ export default function Home() {
             <p className="">{charCounter}/{charLimit} characters</p>
           </div>
         </div>
+        {id && (
+          <div id="link" className="text-center">
+            <p>Criado com sucesso!<br/>Você pode acessar seu texto <a target="_blank" href={window.location.origin + "/" + id}><u>aqui.</u></a></p>
+          </div>
+        )}
       </form>
     </main>
   );
