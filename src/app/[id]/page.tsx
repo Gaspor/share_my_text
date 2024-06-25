@@ -1,8 +1,8 @@
 "use client"
 import { message } from "@/app/[id]/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function Message({ params }: { params: { id: string } }) {
+export default function Messages({ params }: { params: { id: string } }) {
   const [text, setText] = useState<string>("");
   
   const update = async () => {
@@ -11,7 +11,10 @@ export default function Message({ params }: { params: { id: string } }) {
 
   }
 
-  update();
+  useEffect(() => {
+    update();
+
+  }, []);
 
   function copylink (text: string) {
     navigator.clipboard.writeText(text);
